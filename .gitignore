@@ -1,0 +1,13 @@
+.qodo
+_pycache_/
+*.py[cod]
+# Virtual environment
+venv/
+.env/
+.venv/
+# Instance folder
+instance/
+# VS Code
+.vscode/
+#database files
+*.sqlite3
