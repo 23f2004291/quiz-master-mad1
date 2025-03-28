@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}Register - Quiz Master{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/css/login.css">>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <img src="/static/images/quiz_logo.png" class="logo" style="max-width:50%;"alt="Quiz Master Logo">
+    
+    <div class="login-box">
+        <h1>Registration Page</h1>
+        <form method="post" style="font-size: small">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" name="username" id="username" class="form-control" required>
+
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" name="name" id="name" class="form-control" required>
+
+            <label for="dob" class="form-label">Date of Birth:</label>
+            <input type="date" name="dob" id="dob" class="form-control" required>
+
+            <label for="qualification" class="form-label">Qualification:</label>
+            <select name="qualification" id="qualification" class="form-control" required>
+                <option value="--Select Qualification--"></option>
+                <option value="BS in Data Science">BS in Data Science</option>
+                <option value="B.Tech">B.Tech</option>
+                <option value="M.S.">M.S.</option>
+                <option value="M.B.A.">M.B.A</option>
+                <option value="M.Tech">M.Tech</option>
+            
+
+
+            <input type="submit" value="Register" class="btn">
+        </form>
+        
+    </div>
+</div>
+{% endblock %}

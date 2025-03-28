@@ -1,0 +1,119 @@
+{% extends 'layout.html' %}
+
+{% block title %}Edit Question{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="subject-box">
+        <h1 class="text-center">Edit Question for Quiz {{ quiz.id }} ({{ quiz.chapter.chapter_name }})</h1>
+        <img src="/static/images/abs.png" class="logo d-block mx-auto" style="max-width: 20%;" alt="Quiz Master Logo">
+        
+        <h2>Question Details</h2>
+        <form method="post">
+            <label for="question_text" class="form-label">Question:</label>
+            <textarea name="question_text" id="question_text" class="form-control question-box" rows="3">{{ question.question_text }}</textarea>
+
+            <label for="option_a" class="form-label">Option A:</label>
+            <input type="text" name="option_a" id="option_a" class="form-control" value="{{ question.option_a }}">
+
+            <label for="option_b" class="form-label">Option B:</label>
+            <input type="text" name="option_b" id="option_b" class="form-control" value="{{ question.option_b }}">
+
+            <label for="option_c" class="form-label">Option C:</label>
+            <input type="text" name="option_c" id="option_c" class="form-control" value="{{ question.option_c }}">
+
+            <label for="option_d" class="form-label">Option D:</label>
+            <input type="text" name="option_d" id="option_d" class="form-control" value="{{ question.option_d }}">
+
+            <label for="correct_option" class="form-label">Correct Option:</label>
+            <select name="correct_option" id="correct_option" class="form-control">
+                <option value="A" {% if question.correct_option == "A" %}selected{% endif %}>Option A</option>
+                <option value="B" {% if question.correct_option == "B" %}selected{% endif %}>Option B</option>
+                <option value="C" {% if question.correct_option == "C" %}selected{% endif %}>Option C</option>
+                <option value="D" {% if question.correct_option == "D" %}selected{% endif %}>Option D</option>
+            </select>
+
+            <div class="button-group mt-3">
+                <input type="submit" name="action" value="Save" class="btn save-btn">
+                <input type="submit" name="action" value="Discard" class="btn discard-btn">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+body {
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #bdddcb;
+    margin: 50px;
+}
+.form-label {
+    display: block;
+    font-weight: bold;
+    font-size: larger;
+    margin-top: 10px;
+}
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.58);
+    width: 600px;
+    flex-direction: column;
+}
+
+.subject-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    border: 2px solid #28a745;
+    border-radius: 25px;
+    background: #fff;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    font-size: 250%;
+    margin-bottom: 20px;
+}
+
+.question-box {
+    resize: none;
+    height: 150px;
+}
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 35px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 400;
+    border: 3px solid #255f38;
+    transition: 0.3s;
+    width: 45%;
+}
+
+.btn:hover {
+    background-color: #255f38;
+    color: white;
+}
+
+.discard-btn {
+    background-color: none;
+}
+</style>
+{% endblock %}

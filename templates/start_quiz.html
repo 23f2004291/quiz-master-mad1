@@ -1,0 +1,186 @@
+{% extends 'layout.html' %}
+
+{% block title %}Start Quiz{% endblock %}
+
+{% block stylesheets %}
+<style>
+    body {
+        background-color: #bdddcb;
+        position:relative;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .quiz-container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.58);
+        width: 600px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .quiz-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .question-text {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .options label {
+        display: block;
+        background: #f8f9fa;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 8px;
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+
+    .options input[type="radio"]:checked + label {
+        border-color: #28a745;
+        background: #e8f5e9;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-weight: bold;
+        text-align: center;
+        width: 48%;
+        border: none;
+    }
+
+    .btn-next {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-next:hover {
+        background: #255f38;
+        color: white;
+    }
+
+    .btn-submit {
+        background: #ff6347;
+        color: white;
+    }
+
+    .btn-submit:hover {
+        background: #d9534f;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="quiz-container">
+    <!-- Quiz Header -->
+    <div class="quiz-header">
+        <span>Question <span id="current-question">1</span> of {{ questions|length }}</span>
+        <span>Time Left: <span id="timer">{{ quiz.time_duration }}:00</span></span>
+    </div>
+
+    <!-- Quiz Content -->
+    <form id="quiz-form" method="POST" action="{{ url_for('start_quiz', quiz_id=quiz.id) }}">
+        <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
+    
+        <div id="question-area">
+            {% for question in questions %}
+            <div class="question-box" id="question-{{ loop.index }}" {% if loop.index != 1 %}style="display: none;"{% endif %}>
+                <p class="question-text">{{ loop.index }}. {{ question.question_text }}</p>
+                <div class="options">
+                    <input type="radio" name="answer_{{ question.id }}" id="optA_{{ question.id }}" value="A">
+                    <label for="optA_{{ question.id }}">{{ question.option_a }}</label>
+    
+                    <input type="radio" name="answer_{{ question.id }}" id="optB_{{ question.id }}" value="B">
+                    <label for="optB_{{ question.id }}">{{ question.option_b }}</label>
+    
+                    <input type="radio" name="answer_{{ question.id }}" id="optC_{{ question.id }}" value="C">
+                    <label for="optC_{{ question.id }}">{{ question.option_c }}</label>
+    
+                    <input type="radio" name="answer_{{ question.id }}" id="optD_{{ question.id }}" value="D">
+                    <label for="optD_{{ question.id }}">{{ question.option_d }}</label>
+    
+                    <!-- Hidden field to store selected answer -->
+                    <input type="hidden" name="question_{{ question.id }}" id="hidden_answer_{{ loop.index }}" value="">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    
+        <!-- Buttons -->
+        <div class="btn-container">
+            <button type="button" class="btn btn-next" id="next-btn">Save & Next</button>
+            <button type="submit" class="btn btn-submit" id="submit-btn" onclick="return confirmSubmit();">Submit</button>
+        </div>
+    </form>
+</div>    
+<!-- JavaScript for Quiz Functionality -->
+<script>
+    let currentQuestion = 1;
+    const totalQuestions = {{ questions|length|int }};
+    let timer = {{ quiz.time_duration}} * 60; 
+
+    function updateTimer() {
+        let minutes = Math.floor(timer / 60);
+        let seconds = timer % 60;
+        document.getElementById("timer").textContent = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        if (timer > 0) {
+            timer--;
+            setTimeout(updateTimer, 1000);
+        } else {
+            document.getElementById("quiz-form").submit();
+        }
+    }
+    updateTimer();
+
+    document.getElementById("next-btn").addEventListener("click", function () {
+        saveAnswer(currentQuestion);
+
+        document.getElementById("question-" + currentQuestion).style.display = "none";
+        currentQuestion++;
+
+        if (currentQuestion <= totalQuestions) {
+            document.getElementById("question-" + currentQuestion).style.display = "block";
+            document.getElementById("current-question").textContent = currentQuestion;
+        }
+    });
+
+    function saveAnswer(questionNumber) {
+        const options = document.querySelectorAll(`#question-${questionNumber} input[type="radio"]`);
+        let selectedValue = "";
+        
+        options.forEach(option => {
+            if (option.checked) {
+                selectedValue = option.value;
+            }
+        });
+
+        // Store the selected value in a hidden input field
+        document.getElementById(`hidden_answer_${questionNumber}`).value = selectedValue;
+    }
+
+    function confirmSubmit() {
+        return confirm("Are you sure you want to submit the quiz?");
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'base2.html' %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/css/admin_dashboard.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<style>
+    /* Grid layout for two boxes per row */
+    .quiz-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+
+    /* Quiz Box Styling */
+    .quiz-box {
+        border: 2px solid #28a745;
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+        padding: 15px;
+        position: relative;
+        transition: transform 0.2s ease-in-out;
+    }
+    
+    .quiz-box:hover {
+        transform: scale(1.03);
+    }
+
+    /* Quiz Header */
+    .quiz-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .quiz-duration {
+        background: #7cb595;
+        color: black;
+        padding: 5px 10px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    /* Quiz Details (Initially Hidden) */
+    .quiz-details {
+        display: none;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+    }
+
+    /* Buttons */
+    .btn-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+
+    .btn {
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-weight: bold;
+        text-align: center;
+        width: 48%;
+    }
+
+    .btn-view {
+        background: #ffc107;
+        color: black;
+        border: none;
+    }
+
+    .btn-view:hover {
+        background: #ffde3c;
+    }
+
+    .btn-start {
+        background: #28a745;
+        color: white;
+        border: none;
+    }
+
+    .btn-start:hover {
+        background: #255f38;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<h1 style="text-align: center; margin-top: 20px;">User Dashboard</h1>
+
+<div class="quiz-container">
+    {% for quiz in quizzes %}
+    <div class="quiz-box">
+        <!-- Header with Quiz Name & Duration -->
+        <div class="quiz-header">
+            <h3><span>Quiz {{ quiz.id }} - {{ quiz.chapter.chapter_name }}</span></h3>
+            <span class="quiz-duration">{{ quiz.time_duration }} min</span>
+        </div>
+        <br>
+        <!-- View Details Button -->
+        <div class="btn-container">
+            <button class="btn btn-view" onclick="toggleDetails('{{ quiz.id }}')">View Details</button>
+            <a href="{{url_for('start_quiz', quiz_id=quiz.id)}}" class="btn btn-start" onclick="return confirmStart()">Start Quiz</a>
+        </div>
+
+        <!-- Quiz Details (Hidden Initially) -->
+        <div class="quiz-details" id="quiz-details-{{ quiz.id }}">
+            <p><strong>Chapter:</strong> {{ quiz.chapter.chapter_name }}</p>
+            <p><strong>Difficulty:</strong> {{ quiz.difficulty_level }}</p>
+            <p><strong>Date:</strong> {{ quiz.date_of_quiz }}</p>
+            <p><strong>Questions:</strong> {{ quiz.questions|length }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- JavaScript for View Details Toggle -->
+<script>
+    function toggleDetails(quizId) {
+    let details = document.getElementById("quiz-details-" + quizId);
+    let btn = document.querySelector(`[onclick="toggleDetails(${quizId})"]`);
+
+    if (details.style.display === "none" || details.style.display === "") {
+        details.style.display = "block";
+        btn.textContent = "Hide Details";
+    } else {
+        details.style.display = "none";
+        btn.textContent = "View Details";
+    }
+    }
+
+    function confirmStart() {
+        return confirm('Are you ready to start the quiz?');
+    }
+</script>
+
+{% endblock %}
