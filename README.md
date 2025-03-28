@@ -51,7 +51,7 @@ quiz-master-v1/
 ```
 
 ## ⚡ Usage Guide
-- **Admin Login:** Create quizzes, manage subjects, and track user performance.
+- **Admin Login:** Create quizzes, manage subjects, chapters, and quizzes, and track user performance.
 - **User Login:** Attempt quizzes, view results, and check rankings.
 - **Search Bar:** Quickly find subjects, chapters, and quizzes.
 
