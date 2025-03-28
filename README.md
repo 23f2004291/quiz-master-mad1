@@ -55,5 +55,5 @@ quiz-master-v1/
 - **User Login:** Attempt quizzes, view results, and check rankings.
 - **Search Bar:** Quickly find subjects, chapters, and quizzes.
 
-🔗 **GitHub Repository:** [Your Repo Link Here]
+🔗 **GitHub Repository:** [https://github.com/23f2004291/quiz-master-mad1]
 
