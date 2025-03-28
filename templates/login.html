@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}Login - Quiz Master{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/css/login.css">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <img src="/static/quiz_logo.png" class="logo" alt="Quiz Master Logo">
+    
+    <div class="login-box">
+        <h1>Login Page</h1>
+        <form method="post">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" name="username" id="username" class="form-control" required>
+
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+
+            <input type="submit" value="Login" class="btn" href>
+        </form>
+        <br>
+        <p class="register" style="font-weight:400;">Don't have an account? <a href="{{url_for('register')}}" class="btn">Register</a></p>
+    </div>
+</div>
+{% endblock %}

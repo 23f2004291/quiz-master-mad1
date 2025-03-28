@@ -1,0 +1,73 @@
+{% extends 'base1.html' %}
+
+{% block title %}Admin Summary{% endblock %}
+    
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/css/admin_dashboard.css">
+<style>
+    .container {
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .chart-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+
+    .chart-section .graph {
+        flex: 1;
+        max-width: 60%;
+        border: 3px solid #1e8449;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        height: auto;
+    }
+
+    .chart-heading {
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .chart-section {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .chart-section img {
+            max-width: 80px;
+        }
+
+        .chart-section .graph {
+            max-width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="text-center mt-4">Admin Summary</h1>
+    <hr>
+    <br>
+    
+    <!-- Bar Chart Section -->
+    <div class="chart-section">
+        <div class="chart-heading"><h2>1. Quiz Attempts made by the Users</h2></div>
+        <img src="/static/images/arrow.png" style="max-width: 30%;"alt="Quiz Master Logo">
+        <img src="{{ bar_chart_url }}" class="graph" alt="Quiz Attempts Bar Chart">
+    </div>
+    <br>
+    <!-- Pie Chart Section -->
+    <div class="chart-section">
+        <div class="chart-heading"><h2>2. Quizzes Per Subject</h2></div>
+        <img src="/static/images/arrow.png" style="max-width: 30%;" alt="Quiz Master Logo">
+        <img src="{{ pie_chart_url }}" class="graph" alt="Quizzes Per Subject Pie Chart">
+    </div>
+</div>
+{% endblock %}
